@@ -38,8 +38,12 @@ function moveSnake()
   snake.pop();
 }
 
+ main();
 function main() 
 {  
+  if(gameOver()) return;
+
+
    setTimeout(function onTick() 
    {    
      clearCanvas();    
@@ -90,8 +94,26 @@ if(keyPressed === D_KEY && !goLeft)
 
 }
 
-document.addEventListener('keydown', snakeControl)
+document.addEventListener('keydown', snakeControl);
 
-main();
+function gameOver(){
 
+  for(let c = 3; c < snake.length; c++)
+  {
+  const collided = snake[c].x === snake[0].x && 
+  snake[c].y === snake[0].y;
 
+  if(collided)
+  {
+  return true;
+  }
+}
+
+  const hitLeft = snake[0].x < 0;
+  const hitRight = snake[0].x > 500 - 10;
+  const hitTop = snake[0].y < 0;
+  const hitBottom = snake[0].y > 500-10;
+
+  return hitLeft || hitRight || hitTop || hitBottom;
+
+  }
