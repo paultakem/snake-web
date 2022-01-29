@@ -50,6 +50,48 @@ function main()
    }, 100)
 }
 
-main()
+function snakeControl(event){
+
+  const A_KEY = 65;
+  const W_KEY = 87;
+  const S_KEY = 83;
+  const D_KEY = 68;
+
+const keyPressed = event.keyCode;
+
+const goLeft = dx === -10;
+const goRight = dx === 10;
+const goUp = dy === -10;
+const goDown = dy === 10;
+
+if (keyPressed === A_KEY && !goRight)
+{
+  dx = -10;
+  dy = 0;
+}
+
+if (keyPressed === W_KEY && !goDown)
+{
+  dx = 0;
+  dy = -10;
+}
+
+if(keyPressed === S_KEY && !goUp)
+{
+  dx = 0;
+  dy = 10;
+}
+
+if(keyPressed === D_KEY && !goLeft)
+{
+  dx = 10;
+  dy = 0;
+}
+
+}
+
+document.addEventListener('keydown', snakeControl)
+
+main();
 
 
