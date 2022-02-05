@@ -1,21 +1,25 @@
 const gameBoard = document.getElementById("gameCanvas");
 const gameContext = gameBoard.getContext("2d");
+const scoreBoard = document.getElementById("scoreBoard");
+
 
 let dx = 10;
 let dy = 0;
-
 let food_x;
 let food_y;
+let score = 0;
+let highScoreArray;
 
-let snake = [  {x: 250, y: 250}, 
-               {x: 240, y: 250}, 
-               {x: 230, y: 250},
+let snake = [  {x: gameBoard.width/2, y: gameBoard.height/2}, 
+               {x: gameBoard.width/2-10, y: gameBoard.height/2-10}, 
+               {x: gameBoard.width/2-20, y: gameBoard.width/2-20},
             ];
 
 
 main();
 
 gen_food();
+
 
 
 function drawSnakePart(part){
@@ -33,12 +37,14 @@ function drawFood(){
 }
 
 
+
+
 function clearCanvas() {
       
     gameContext.fillStyle = 'lightblue';
     gameContext.strokestyle = 'black';
-    gameContext.fillRect(0, 0, 500, 500);
-     gameContext.strokeRect(0, 0, 500, 500);
+    gameContext.fillRect(0, 0, gameBoard.width, gameBoard.height );
+     gameContext.strokeRect(0, 0, gameBoard.width, gameBoard.height);
       }
 
 function drawSnake(){
@@ -54,7 +60,11 @@ const collided = snake[0].x === food_x &&
 snake[0].y === food_y;
 
 if(collided){
+
+  score += 10;
+
 gen_food();
+scoreBoard.innerHTML = score;
 } else {
 
   snake.pop();
@@ -63,7 +73,12 @@ gen_food();
 
 function main() 
 {  
-  if(gameOver()) return;
+  if(gameOver()){
+    // highScoreArray.push(score);
+    // highScoreArray.sort();
+    // buildHighScoreList(highScoreArray);
+    return
+  }
 
 
    setTimeout(function onTick() 
@@ -76,6 +91,15 @@ function main()
      main();
    }, 200)
 }
+
+// function buildHighScoreList(score){
+
+//   score.forEach(el => {
+//     let entry = document.createElement('li');
+//     entry.appendChild(document.createTextNode(el));
+//     score.appendChild(entry);
+//   });
+// }
 
 function snakeControl(event){
 
@@ -133,9 +157,9 @@ function gameOver(){
 }
 
   const hitLeft = snake[0].x < 0;
-  const hitRight = snake[0].x > 500 - 10;
+  const hitRight = snake[0].x > gameBoard.width- 10;
   const hitTop = snake[0].y < 0;
-  const hitBottom = snake[0].y > 500-10;
+  const hitBottom = snake[0].y > gameBoard.height-10;
 
   return hitLeft || hitRight || hitTop || hitBottom;
 
@@ -149,8 +173,8 @@ return Math.round((Math.random() * (max - min) + min) / 10 ) * 10;
 
   function gen_food(){
 
-  food_x = food_coord(0, 500 - 10);
-  food_y = food_coord(0, 500 - 10);
+  food_x = food_coord(0, gameBoard.width - 10);
+  food_y = food_coord(0, gameBoard.height - 10);
 
   snake.forEach( part => {
 const eaten = part.x == food_x && part.y == food_y;
