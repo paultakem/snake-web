@@ -41,7 +41,7 @@ function drawFood(){
 
 function clearCanvas() {
       
-    gameContext.fillStyle = 'lightblue';
+    gameContext.fillStyle = '#2196f3';
     gameContext.strokestyle = 'black';
     gameContext.fillRect(0, 0, gameBoard.width, gameBoard.height );
      gameContext.strokeRect(0, 0, gameBoard.width, gameBoard.height);
@@ -64,7 +64,7 @@ if(collided){
   score += 10;
 
 gen_food();
-scoreBoard.innerHTML = score;
+scoreBoard.innerHTML = `Score: `+ score;
 } else {
 
   snake.pop();
