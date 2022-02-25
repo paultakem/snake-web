@@ -1,6 +1,12 @@
 const gameBoard = document.getElementById("gameCanvas");
 const gameContext = gameBoard.getContext("2d");
 const scoreBoard = document.getElementById("scoreBoard");
+const scoreList = document.getElementById("highScoreList")
+const pauseBtn = document.getElementById("pauseBtn");
+const restartBtn = document.getElementById("restartBtn");
+
+
+
 
 
 let dx = 10;
@@ -8,7 +14,19 @@ let dy = 0;
 let food_x;
 let food_y;
 let score = 0;
-let highScoreArray;
+let highScoreArray = [];
+let paused = false;
+let over = false;
+
+pauseBtn.addEventListener('click', function(){ paused = !paused });
+restartBtn.addEventListener('click',  restart);
+
+
+let snakeInnit = [  {x: gameBoard.width/2, y: gameBoard.height/2}, 
+  {x: gameBoard.width/2-10, y: gameBoard.height/2-10}, 
+  {x: gameBoard.width/2-20, y: gameBoard.width/2-20},
+];
+
 
 let snake = [  {x: gameBoard.width/2, y: gameBoard.height/2}, 
                {x: gameBoard.width/2-10, y: gameBoard.height/2-10}, 
@@ -21,6 +39,17 @@ main();
 gen_food();
 
 
+function restart(){
+  scoreBoard.innerHTML = `Score: 0`;
+  score = 0;
+  snake = Array.from(snakeInnit);
+  gen_food();
+  if(over){
+    over = false;
+    main();
+  }
+
+ }
 
 function drawSnakePart(part){
     gameContext.fillStyle = 'white';  
@@ -73,11 +102,22 @@ scoreBoard.innerHTML = `Score: `+ score;
 
 function main() 
 {  
+
+
   if(gameOver()){
-    // highScoreArray.push(score);
-    // highScoreArray.sort();
-    // buildHighScoreList(highScoreArray);
-    return
+    over = true;
+    highScoreArray.push(score);
+   
+    let scoreListHTML = ``; 
+    highScoreArray.forEach( element =>  {
+      scoreListHTML += `<li> ${element} </li>`; 
+    });
+    
+    
+    scoreList.innerHTML = scoreListHTML;
+    scoreBoard.innerHTML = `Score: 0`;
+    score = 0;
+    return;
   }
 
 
@@ -92,14 +132,6 @@ function main()
    }, 200)
 }
 
-// function buildHighScoreList(score){
-
-//   score.forEach(el => {
-//     let entry = document.createElement('li');
-//     entry.appendChild(document.createTextNode(el));
-//     score.appendChild(entry);
-//   });
-// }
 
 function snakeControl(event){
 
