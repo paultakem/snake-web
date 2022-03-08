@@ -10,8 +10,8 @@ const restartBtn = document.getElementById("restartBtn");
 
 
 
-let dx = 10;
-let dy = 0;
+let dx = 10;  // horizontal speed
+let dy = 0;  // vertical speed 
 let food_x;
 let food_y;
 let score = 0;
@@ -19,24 +19,29 @@ let highScoreArray = [];
 let paused = false;
 let over = false;
 
+
+// buttens to control game flow (pause, resumre, restart)
 pauseBtn.addEventListener('click', function () {
   paused = !paused
 });
 restartBtn.addEventListener('click', restart);
 resumeBtn.addEventListener('click', resume);
 
-
+//  starting coordinates of the snake rectangles -> middle of the canvas 
 let snakeInnit = [{
+  // head of the snake 
     x: gameBoard.width / 2,
     y: gameBoard.height / 2
   },
   {
+    //2nd body part 
     x: gameBoard.width / 2 - 10,
-    y: gameBoard.height / 2 - 10
+    y: gameBoard.height / 2 
   },
   {
+    //3rd body part
     x: gameBoard.width / 2 - 20,
-    y: gameBoard.width / 2 - 20
+    y: gameBoard.width / 2 
   },
 ];
 
@@ -47,11 +52,11 @@ let snake = [{
   },
   {
     x: gameBoard.width / 2 - 10,
-    y: gameBoard.height / 2 - 10
+    y: gameBoard.height / 2 
   },
   {
     x: gameBoard.width / 2 - 20,
-    y: gameBoard.width / 2 - 20
+    y: gameBoard.width / 2 
   },
 ];
 
@@ -114,6 +119,8 @@ function moveSnake() {
   };
   snake.unshift(head);
 
+
+  // check if snake touched the food 
   const collided = snake[0].x === food_x &&
     snake[0].y === food_y;
 
@@ -121,7 +128,9 @@ function moveSnake() {
 
     score += 10;
 
+    //generate new food 
     gen_food();
+    //set updated score 
     scoreBoard.innerHTML = `Score: ` + score;
   } else {
 
@@ -239,6 +248,4 @@ function gen_food() {
     }
 
   })
-
-
 }
